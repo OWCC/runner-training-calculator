@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { TrainingSession, ViewState, MonthlyGoal } from './types';
 import { TrainingEditor } from './components/TrainingEditor';
@@ -41,10 +40,14 @@ function App() {
     setIsDarkMode(newMode);
     if (newMode) {
       document.documentElement.classList.add('dark');
-      localStorage.setItem(THEME_KEY, 'dark');
+      try {
+        localStorage.setItem(THEME_KEY, 'dark');
+      } catch (e) { console.error(e); }
     } else {
       document.documentElement.classList.remove('dark');
-      localStorage.setItem(THEME_KEY, 'light');
+      try {
+        localStorage.setItem(THEME_KEY, 'light');
+      } catch (e) { console.error(e); }
     }
   };
 
@@ -69,13 +72,21 @@ function App() {
     }
   }, []);
 
-  // Persist data
+  // Persist data with Error Handling
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    } catch (e) {
+      console.error("Failed to save sessions", e);
+    }
   }, [sessions]);
 
   useEffect(() => {
-    localStorage.setItem(GOALS_KEY, JSON.stringify(goals));
+    try {
+      localStorage.setItem(GOALS_KEY, JSON.stringify(goals));
+    } catch (e) {
+      console.error("Failed to save goals", e);
+    }
   }, [goals]);
 
   // Goal Logic
@@ -210,15 +221,16 @@ function App() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Changed from lg:grid-cols-4 to lg:grid-cols-3 to remove gap left by weather widget */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Overall Stats Cards */}
-              <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+              <div className="lg:col-span-1 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col justify-center">
                 <p className="text-sm font-medium text-slate-400 uppercase">Total Sessions</p>
                 <p className="text-3xl font-bold text-slate-800 dark:text-white mt-2">{sessions.length}</p>
               </div>
               
-              {/* Monthly Goals Card (Takes up 2 columns) */}
-              <div className="md:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 relative group">
+              {/* Monthly Goals Card */}
+              <div className="lg:col-span-2 md:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 relative group">
                 <div className="flex justify-between items-start mb-4">
                    <div>
                      <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">

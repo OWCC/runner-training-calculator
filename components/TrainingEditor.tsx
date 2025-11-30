@@ -359,7 +359,7 @@ export const TrainingEditor: React.FC<TrainingEditorProps> = ({ initialSession, 
                   
                   <td className="p-2 font-mono text-slate-600 dark:text-slate-400">
                     {formatTime(seg.targetTimeMins)}
-                    <span className="block text-[10px] text-slate-400 dark:text-slate-600">({seg.targetTimeHours.toFixed(2)}h)</span>
+                    <span className="block text-[10px] text-slate-400 dark:text-slate-600">({seg.targetTimeHours.toFixed(1)}h)</span>
                   </td>
                   
                   {/* Accumulators */}
