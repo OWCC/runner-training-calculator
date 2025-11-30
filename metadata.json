@@ -1,0 +1,5 @@
+{
+  "name": "RunPlanner EP Calculator",
+  "description": "A running training planner that calculates Effort Points (EP) and predicts finish times based on elevation and distance. Includes logging and analysis features.",
+  "requestFramePermissions": []
+}
